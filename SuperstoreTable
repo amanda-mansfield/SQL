@@ -1,3 +1,5 @@
+#This project utlizes the following table of Superstore data:
+
 CREATE TABLE superstore (
     item_id INTEGER PRIMARY KEY,
     item_name TEXT,
@@ -30,20 +32,29 @@ SELECT *
 FROM superstore
 ORDER BY price;
 
+#Prompt: List the items and prices of all kitchen supplies.
+SELECT item_name, price
+FROM superstore
+WHERE category = "Kitchen Supplies";
+
+#Prompt: Show a statistic about the price of kitchen items.
+SELECT avg(price)
+FROM superstore
+WHERE category = "Kitchen Supplies";
+
+#Prompt: Identify how many non-stick baking sets are in stock at the superstore.
+SELECT stock_quantity
+FROM superstore
+WHERE item_name = "Non-Stick Baking Set";
+
+#Prompt: Find out which items are rated 4.5 and above, which category they are in, and their prices.
+SELECT item_name, category, price
+FROM superstore
+WHERE average_rating >= 4.5;
+
+#Prompt: Find out how much of each electronics item is in stock and list them in order of how much is in stock.
 SELECT SUM(stock_quantity), item_name
 FROM superstore
 WHERE category = "Electronics"
 GROUP BY stock_quantity
 ORDER BY stock_quantity;
-
-SELECT item_name, category, price
-FROM superstore
-WHERE average_rating >= 4.5;
-
-SELECT item_name, price
-FROM superstore
-WHERE category = "Kitchen Supplies";
-
-SELECT stock_quantity
-FROM superstore
-WHERE item_name = "Non-Stick Baking Set";
