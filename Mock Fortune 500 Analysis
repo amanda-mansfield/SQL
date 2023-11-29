@@ -91,8 +91,35 @@ GROUP BY maternity_leave;
 --I'll start by using a CASE statement to look at PTO. A SELECT statement averaging paid days off tells me that of the companies listed, the average amount of offered days off is 18.
 SELECT COUNT(company_name),
 CASE WHEN paid_time_off_days >= 19 THEN "Above_avg_PTO"
-WHEN maternity_leave_weeks = 18 THEN "Avg_PTO"
-WHEN maternity_leave_weeks <18 THEN "Below_avg_PTO"
+WHEN paid_time_off_days = 18 THEN "Avg_PTO"
+WHEN paid_time_off_days <18 THEN "Below_avg_PTO"
 END AS PTO
 FROM fortune_companies
 GROUP BY PTO;
+--Results indicate that in this sample, there are 20 companies that offer above average PTO, 4 companies that offer average PTO, and 19 companies that offer below average PTO.
+
+--I'll try to put these two together to see what happens.
+SELECT COUNT(company_name),
+CASE WHEN paid_time_off_days >= 19 THEN "Above_avg_PTO"
+WHEN paid_time_off_days = 18 THEN "Avg_PTO"
+WHEN paid_time_off_days <18 THEN "Below_avg_PTO"
+END AS PTO,
+CASE WHEN maternity_leave_weeks >= 11 THEN "Above_average_maternity_leave"
+WHEN maternity_leave_weeks = 10 THEN "Average_maternity_leave"
+WHEN maternity_leave_weeks <10 THEN "Below_average_maternity_leave"
+END AS maternity_leave
+FROM fortune_companies
+GROUP BY PTO, maternity_leave;
+--Results show me that there are 20 companies that offer above average PTO AND above average maternity leave. I want more information about these companies before I decide if I'd like to apply to jobs there. I'll change my query just a little bit to give me what I'm looking for.
+
+SELECT *
+FROM fortune_companies
+WHERE paid_time_off_days >= 18
+AND maternity_leave_weeks >= 11;
+--Now I have detailed information about these companies. I'm interested in employee satisfaction at these companies. With the given information, I'm going to look at average tenure. A quick google serach shows that people stay at a job for an average of 4 years. Given that metric, I'll assume that companies with over 5 years of average tenure have good employee satisfaction.
+
+SELECT *
+FROM fortune_companies
+WHERE paid_time_off_days >= 18
+AND maternity_leave_weeks >= 11;
+--This brought my results down to 16 companies. It seems that this group of companies is doing something right by their employees! 
