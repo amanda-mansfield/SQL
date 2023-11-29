@@ -1,4 +1,4 @@
-
+--This analysis utilized the following mock Fortune 500 dataset provided to me by Charlotte Chaze in the Breaking Into Tech Data Analytics Certificat Program. The prompts created were created by me and not provided to me by the certificate program.
 
 CREATE TABLE fortune_companies (
     company_id INTEGER PRIMARY KEY,
