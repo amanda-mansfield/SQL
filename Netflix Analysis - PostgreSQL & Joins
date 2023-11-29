@@ -59,5 +59,24 @@ VALUES
     ;
 
 
+#Try to figure out which attribute you'd use to join the two tables. Using PostgreSQL, write a join to select a few columns from both tables at the same time.
+SELECT people.director, people.cast, titles.title, titles.rating
+FROM "netflix_people" people
+LEFT JOIN "netflix_titles_info" titles
+ON people.show_id = titles.show_id;
+
+#How many movie titles are there in the database? (movies ownly, not tv shows)
+SELECT COUNT(*)
+FROM "netflix_titles_info"
+WHERE type = 'Movie';
+#Results show there are 8 movie titles
+
+#When was the most recent batch of tv shows and/or movies added to the database?
+SELECT *
+FROM "netflix_titles_info"
+ORDER BY date_added desc
+LIMIT 1;
+#Limit 1 may or may not have been necessary, but would aid in decreasing the time it took for a query to return a result if the dataset was very large. The most recent addition was on 9/25/2021.
+
 
 
