@@ -107,3 +107,33 @@ LIMIT 1;
 
 ###The following prompts are my own, created to continue exploration of the data beyond the provided opportunities.
 
+#How many of each type are there?
+SELECT type, COUNT(type)
+FROM "netflix_titles_info"
+GROUP BY type;
+#There are 12 TV Shows and 8 Movies.
+
+#How many movies are in each rating category?
+SELECT rating, COUNT(rating)
+FROM "netflix_titles_info"
+GROUP BY rating;
+#This shows me that there are 14 titles with a TV-MA rating. I want to know how many of those are movies and how many are tv shows.
+
+SELECT type, COUNT(type)
+FROM "netflix_titles_info"
+WHERE rating = 'TV-MA'
+GROUP BY type;
+#I learned that 3 of them are movies and 11 of them are TV shows. Now, I'm wondering what the breakdown of rating types are across all listed TV shows. Is TV-MA the most common?
+
+SELECT rating, COUNT(rating)
+FROM "netflix_titles_info"
+WHERE type = 'TV Show'
+GROUP BY rating;
+#Interesting! 11 are TV-MA and only 1 is TV-14. What's the rating breakdown for movies?
+
+SELECT rating, COUNT(rating)
+FROM "netflix_titles_info"
+WHERE type = 'Movie'
+GROUP BY rating;
+#This has a wider range, showing 1 PG, 2 PG-13, 1 TV-14, 3 TV-MA, and 1 TV-PG. 
+
