@@ -1,4 +1,4 @@
-#The following data set was provided to me by Charlotte Chaze in the Breaking Into Tech Data Analytics Certificate Course. She has also provided prompts. The solutions are my own. 
+#The following data set was provided to me by Charlotte Chaze in the Breaking Into Tech Data Analytics Certificate Course. She has also provided prompts. The solutions are my own and utilize PostgreSQL dialect.
 
 CREATE TABLE netflix_titles_info
     ("show_id" varchar(5), "type" varchar(7), "title" varchar(58), "country" varchar(74), "date_added" timestamp, "release_year" int, "rating" varchar(5), "duration" varchar(9), "listed_in" varchar(74))
@@ -78,5 +78,32 @@ ORDER BY date_added desc
 LIMIT 1;
 #Limit 1 may or may not have been necessary, but would aid in decreasing the time it took for a query to return a result if the dataset was very large. The most recent addition was on 9/25/2021.
 
+#An alternate query to the previous prompt:
+SELECT max(date(date_added))
+FROM "netflix_titles_info";
+#As I continue to learn more about SQL, I am learning ways to make my queries more concise, which saves time and resources.
 
+
+#List all the movies and tv shows in alphabetical order.
+SELECT title
+FROM "netflix_titles_info"
+ORDER BY title asc;
+
+#Who was the director for the movie The Starling?
+SELECT people.director
+FROM "netflix_people" people
+JOIN "netflix_titles_info" titles
+ON people.show_id = titles.show_id
+WHERE titles.title = 'The Starling';
+#The director is Theodore Melfi.
+
+#What is the oldest movie in the database and what year was it made?
+SELECT title, release_year
+FROM "netflix_titles_info"
+WHERE type = 'Movie'
+ORDER BY release_year asc
+LIMIT 1;
+
+
+###The following prompts are my own, created to continue exploration of the data beyond the provided opportunities.
 
