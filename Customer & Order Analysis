@@ -51,3 +51,12 @@ WHERE FebSales.Quantity > 2
 AND length(order_id) = 6
 AND order_id <> 'Order ID';
 --This query indicates that 278 distinct acount numbers (customers) placed an order in February with an average amount spent of $13.83.
+
+--List all the product sold in Los Angeles in February and include how many of each were sold.
+SELECT Product, sum(Quantity)
+FROM FebSales
+WHERE location LIKE '%Los Angeles%'
+GROUP BY Product;
+-This query returned 19 rows of information including each product name and the quantity of how many were sold in the month of February.
+
+
