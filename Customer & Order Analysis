@@ -59,4 +59,48 @@ WHERE location LIKE '%Los Angeles%'
 GROUP BY Product;
 -This query returned 19 rows of information including each product name and the quantity of how many were sold in the month of February.
 
+--Which locations in New York received at least 3 orders in January, and how many orders did they each receive?
+SELECT location, COUNT(orderID)
+FROM JanSales
+WHERE location LIKE '%New York%'
+and length(orderID) = 6
+AND orderID <> 'Order ID'
+GROUP BY location
+HAVING COUNT(orderID)>2;
+--This gave us a list of 4 different locations.
+
+
+--How many of each type of headphone were sold in February?
+SELECT Product, sum(Quantity) as Quantity
+FROM FebSales
+WHERE Product LIKE '%headphone%'
+GROUP BY Product;
+--This result showed 3 different types of headphones and listed their quantities.
+
+
+--What was the average amount spent per account in February?
+SELECT sum(quantity*price)/COUNT(customers.acctnum)
+FROM FebSales
+LEFT JOIN customers ON FebSales.orderID = customers.order_ID
+WHERE length(orderID) = 6
+AND orderID <> 'Order ID';
+--The average account spent $190.
+
+
+--What was the average quantity of products purchased per account in February?
+SELECT  COUNT(Product)/COUNT(customers.acctnum)
+FROM FebSales
+LEFT JOIN customers ON FebSales.orderID = customers.order_ID
+WHERE length(orderID) = 6
+AND orderID <> 'Order ID';
+--The average account ordered 1 item.
+
+
+--Which product brought in the most revenue in January and how much revenue did it bring in total?
+SELECT Product, SUM(quantity*price) as revenue
+FROM JanSales
+GROUP BY Product
+ORDER BY SUM(quantity*price) desc
+LIMIT 1;
+--The Macbook Pro Laptop has generated the most revenue at $399,500.
 
