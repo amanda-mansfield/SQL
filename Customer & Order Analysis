@@ -1,0 +1,53 @@
+#In this SQL, I have queried a database with mulitple tables in it to gain more insights about this company's customer base and the items they order. The database was provided to me by Charlotte Chaze in the Break Into Tech Data Analysis Certificate Program. The prompts listed below were provided by her. The SQL code generated below each prompt was written by me and is my own work.
+
+--How many orders were placed in January?
+SELECT COUNT(orderID)
+FROM JanSales
+WHERE length(orderID) = 6
+AND orderID <> 'Order ID';
+--Upon my first look at the data, I found that the information in the orderID column is messy, so I needed to filter it. Including the filter, this query indicates 9,681 orders were placed in January. 
+
+--How many of those orders were for an iPhone?
+SELECT COUNT(orderID)
+FROM JanSales
+WHERE length(orderID) = 6
+AND orderID <> 'Order ID'
+AND Product = 'iPhone';
+--379 of the orders placed in January were for an iPhone.
+
+--Select the customer account numbers for all the orders that were placed in February. I know that the FebSales table has the orderID, but not the customer account numbers. I need to join the customer table in order to find that information.
+SELECT distinct acctnum
+FROM customers
+INNER JOIN FebSales
+ON customers.order_id = FebSales.orderID
+WHERE length(orderID)= 6
+and orderid <> 'Order ID';
+--This resulted in 11,986 unique observations.
+
+--Which product was the cheapest one sold in January, and what was the price?
+SELECT distinct Product, min(price)
+FROM JanSales;
+--The cheapest product sold was a 4-pack of AAA Batteries soled for 2.99.
+
+
+--What is the total revenue for each product sold in January?
+SELECT Product, SUM(JanSales.Quantity)*JanSales.price as revenue
+FROM JanSales
+GROUP BY Product;
+
+--Which products were sold in February at 548 Lincoln St., Seattle, WA 98101? How many of each were sold? What was the total revenue?
+SELECT FebSales.Product, FebSales.Quantity, SUM(FebSales.Quantity)*price as revenue
+FROM FebSales
+WHERE location = '548 Lincoln St, Seattle, WA 98101'
+GROUP BY product;
+--2 AA Bateries (4-pack) were sold for $7.68 in revenue.
+
+--How many customers ordered more than 2 products at a time in February, and what was the average amount spent for those customers?
+SELECT COUNT(distinct customers.acctnum), AVG(FebSales.Quantity*price)
+FROM FebSales
+LEFT JOIN customers
+ON FebSales.orderID = customers.order_id
+WHERE FebSales.Quantity > 2
+AND length(order_id) = 6
+AND order_id <> 'Order ID';
+--This query indicates that 278 distinct acount numbers (customers) placed an order in February with an average amount spent of $13.83.
