@@ -1,0 +1,40 @@
+--This SQL utilizes data from the dataset found at this link: https://www.kaggle.com/datasets/equinxx/spotify-top-50-songs-in-2021, which outlines a variety of measures from the top 50 songs from 2021.
+
+--The following prompts and questions are my own, as well as the SQL written to find the answers to them.
+
+--What is the average danceability of the 10 most popular songs?
+SELECT avg(danceability)
+FROM Spotifydata
+ORDER BY popularity desc
+LIMIT 10;
+--The average danceability of the top 10 most popular songs is only .68572. Interesting!
+
+--How many artists have more than one song on this list?
+SELECT distinct artist_name, COUNT(id)
+FROM Spotifydata
+GROUP BY artist_name
+HAVING COUNT(id)>=2;
+--There are 10 artists who meet this criteria. That's more than I expected!
+
+--How popular is the longest song and who sang it?
+SELECT artist_name, track_name, duration_ms, popularity
+FROM Spotifydata
+ORDER BY duration_ms desc
+LIMIT 1;
+--Pepas by Farruko is the longest and has a popularity rating of 86.
+
+--What about the shortest?
+SELECT artist_name, track_name, duration_ms, popularity
+FROM Spotifydata
+ORDER BY duration_ms
+LIMIT 1;
+--Astronaut in The Ocean by Masked Wolf is the shortest and has a popularity rating of 77.
+
+--What songs have the most speechiness (the higher the value, the more spoken word)?
+SELECT artist_name, track_name, speechiness
+FROM Spotifydata
+ORDER BY speechiness desc
+LIMIT 10;
+
+
+
